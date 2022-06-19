@@ -24,7 +24,7 @@ class TextLumine extends StatelessWidget {
       this.normalTextStyle,
       bool ignoreDiacritics = false,
       bool ignoreCase = false,
-      TextStyle? style})
+      TextStyle? highlightTextStyle})
       : super(key: key) {
     // Generate lumine info list from highlighted substrings.
     var lumineInfoService = LumineInfoService();
@@ -33,7 +33,7 @@ class TextLumine extends StatelessWidget {
         text, substrings,
         ignoreDiacritics: ignoreDiacritics,
         ignoreCase: ignoreCase,
-        style: style);
+        style: highlightTextStyle);
 
     _lumineInfoList =
         lumineInfoService.rectifyHighlightInfoList(text, lumineInfoList);
