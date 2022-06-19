@@ -1,7 +1,7 @@
 name: text_lumine
-description: A new Flutter package project.
+description: A widget that displays text with highlighted sub-strings.
 version: 0.0.1
-homepage:
+homepage: https://github.com/null-koodaa/flutter-text-lumine
 
 environment:
   sdk: ">=2.17.1 <3.1.0"
