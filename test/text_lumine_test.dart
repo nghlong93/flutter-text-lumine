@@ -12,8 +12,8 @@ void main() {
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,
-        child:
-            TextLumine.withHighlightedWords(text, substrings: const ["test"])));
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["test"])));
 
     // Create the Finder.
     final richTextFinder = find.text(text, findRichText: true);
@@ -35,8 +35,8 @@ void main() {
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,
-        child:
-            TextLumine.withHighlightedWords(text, substrings: const ["test"])));
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["test"])));
 
     // Get rich text.
     final richTextFinder = find.text(text, findRichText: true);
@@ -59,7 +59,7 @@ void main() {
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,
-        child: TextLumine.withHighlightedWords(text,
+        child: TextLumine.withHighlightedSubstrings(text,
             substrings: const ["thử nghiệm", "Lam sao"])));
 
     // Get rich text.
@@ -83,7 +83,7 @@ void main() {
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,
-        child: TextLumine.withHighlightedWords(text,
+        child: TextLumine.withHighlightedSubstrings(text,
             substrings: const ["thu nghiem"], ignoreDiacritics: true)));
 
     // Get rich text.
@@ -107,8 +107,8 @@ void main() {
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,
-        child:
-            TextLumine.withHighlightedWords(text, substrings: const ["Test"])));
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["Test"])));
 
     // Expect.
     final textFinder = find.text(text);
@@ -130,7 +130,7 @@ void main() {
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,
-        child: TextLumine.withHighlightedWords(text,
+        child: TextLumine.withHighlightedSubstrings(text,
             substrings: const ["Test"], ignoreCase: true)));
 
     // Get rich text.

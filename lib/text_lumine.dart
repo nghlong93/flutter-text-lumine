@@ -18,7 +18,7 @@ class TextLumine extends StatelessWidget {
         LumineInfoService().rectifyHighlightInfoList(text, lumineInfoList);
   }
 
-  TextLumine.withHighlightedWords(this.text,
+  TextLumine.withHighlightedSubstrings(this.text,
       {required List<String> substrings,
       Key? key,
       this.normalTextStyle,
