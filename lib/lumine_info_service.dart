@@ -12,12 +12,18 @@ class LumineInfoService {
 
     for (var substring in substrings) {
       var searchText = _transformText(substring, ignoreDiacritics, ignoreCase);
-      var index = haystack.indexOf(searchText);
+      var index = -1;
+      var start = 0;
 
-      if (index >= 0) {
-        lumineInfoList
-            .add(LumineInfo(index, length: searchText.length, style: style));
-      }
+      do {
+        index = haystack.indexOf(searchText, start);
+
+        if (index >= 0) {
+          lumineInfoList
+              .add(LumineInfo(index, length: searchText.length, style: style));
+          start = index + searchText.length;
+        }
+      } while (index >= 0 && start < haystack.length);
     }
 
     return lumineInfoList;

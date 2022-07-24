@@ -52,6 +52,31 @@ void main() {
   });
 
   testWidgets(
+      'Text lumine has correct TextSpans with duplicated highlighted words',
+      (tester) async {
+    const text = "test how to test";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["test"])));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 3);
+
+    expect(textSpanChildren[0].toPlainText(), "test");
+    expect(textSpanChildren[1].toPlainText(), " how to ");
+    expect(textSpanChildren[2].toPlainText(), "test");
+  });
+
+  testWidgets(
       'Text lumine has correct TextSpans with highlighted words considering diacritics',
       (tester) async {
     const text = "Làm sao để thử nghiệm";
