@@ -5,3 +5,7 @@
 ## 0.0.2
 
 - Fix bug: Must highlight all same substrings instead of only highlighting the first occurence
+
+## 0.0.3
+
+- Add ignoreWordBoundaries option
