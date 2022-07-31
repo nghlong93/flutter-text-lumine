@@ -10,10 +10,6 @@ class LumineInfoService {
       TextStyle? style}) {
     var haystack = _transformText(text, ignoreDiacritics, ignoreCase);
 
-    if (!ignoreWordBoundaries) {
-      haystack = " $haystack ";
-    }
-
     List<LumineInfo> lumineInfoList = [];
 
     for (var substring in substrings) {
@@ -24,22 +20,22 @@ class LumineInfoService {
       var searchText =
           _transformText(substring, ignoreDiacritics, ignoreCase).trim();
 
-      if (!ignoreWordBoundaries) {
-        searchText = " $searchText ";
-      }
-
       var index = -1;
       var start = 0;
 
       do {
-        index = haystack.indexOf(searchText, start);
+        if (ignoreWordBoundaries) {
+          index = haystack.indexOf(searchText, start);
+        } else {
+          index = haystack.indexOf(
+              RegExp("\\b${RegExp.escape(searchText)}\\b",
+                  caseSensitive: !ignoreCase, unicode: true),
+              start);
+        }
 
         if (index >= 0) {
-          var realSearchTextLength =
-              ignoreWordBoundaries ? searchText.length : searchText.length - 2;
-
-          lumineInfoList.add(
-              LumineInfo(index, length: realSearchTextLength, style: style));
+          lumineInfoList
+              .add(LumineInfo(index, length: searchText.length, style: style));
           start = index + searchText.length;
         }
       } while (index >= 0 && start < haystack.length);
