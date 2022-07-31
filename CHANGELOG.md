@@ -9,3 +9,7 @@
 ## 0.0.3
 
 - Add ignoreWordBoundaries option
+
+## 0.0.4
+
+- Fix bug: cannot identify word boundaries that relate to puntuations
