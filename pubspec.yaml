@@ -1,5 +1,5 @@
 name: text_lumine
-description: A widget that displays text with highlighted sub-strings.
+description: A widget that displays text with highlighted sub-strings. The widget can highlight sub-strings which are defined by their indices and lengths. If a list of sub-strings is input, it automatically calculates places to highlight.
 version: 0.0.3
 homepage: https://github.com/null-koodaa/flutter-text-lumine
 
