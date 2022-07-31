@@ -6,12 +6,28 @@ class LumineInfoService {
   List<LumineInfo> generateLumineInfoList(String text, List<String> substrings,
       {bool ignoreDiacritics = false,
       bool ignoreCase = false,
+      bool ignoreWordBoundaries = false,
       TextStyle? style}) {
     var haystack = _transformText(text, ignoreDiacritics, ignoreCase);
+
+    if (!ignoreWordBoundaries) {
+      haystack = " $haystack ";
+    }
+
     List<LumineInfo> lumineInfoList = [];
 
     for (var substring in substrings) {
-      var searchText = _transformText(substring, ignoreDiacritics, ignoreCase);
+      if (substring.trim().isEmpty) {
+        continue;
+      }
+
+      var searchText =
+          _transformText(substring, ignoreDiacritics, ignoreCase).trim();
+
+      if (!ignoreWordBoundaries) {
+        searchText = " $searchText ";
+      }
+
       var index = -1;
       var start = 0;
 
@@ -19,8 +35,11 @@ class LumineInfoService {
         index = haystack.indexOf(searchText, start);
 
         if (index >= 0) {
-          lumineInfoList
-              .add(LumineInfo(index, length: searchText.length, style: style));
+          var realSearchTextLength =
+              ignoreWordBoundaries ? searchText.length : searchText.length - 2;
+
+          lumineInfoList.add(
+              LumineInfo(index, length: realSearchTextLength, style: style));
           start = index + searchText.length;
         }
       } while (index >= 0 && start < haystack.length);

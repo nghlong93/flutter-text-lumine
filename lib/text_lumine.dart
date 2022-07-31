@@ -24,6 +24,7 @@ class TextLumine extends StatelessWidget {
       this.normalTextStyle,
       bool ignoreDiacritics = false,
       bool ignoreCase = false,
+      bool ignoreWordBoundaries = false,
       TextStyle? highlightTextStyle})
       : super(key: key) {
     // Generate lumine info list from highlighted substrings.
@@ -33,6 +34,7 @@ class TextLumine extends StatelessWidget {
         text, substrings,
         ignoreDiacritics: ignoreDiacritics,
         ignoreCase: ignoreCase,
+        ignoreWordBoundaries: ignoreWordBoundaries,
         style: highlightTextStyle);
 
     _lumineInfoList =

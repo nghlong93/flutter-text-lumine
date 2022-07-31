@@ -77,6 +77,60 @@ void main() {
   });
 
   testWidgets(
+      'Text lumine has correct TextSpans with a highlighted word that could be mistaken as a substring',
+      (tester) async {
+    const text = "Nightmares are common in children but can happen at any age";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["are"])));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 3);
+
+    expect(textSpanChildren[0].toPlainText(), "Nightmares ");
+    expect(textSpanChildren[1].toPlainText(), "are");
+    expect(textSpanChildren[2].toPlainText(),
+        " common in children but can happen at any age");
+  });
+
+  testWidgets(
+      'Text lumine has correct TextSpans with highlighted substrings ignoring word boundaries',
+      (tester) async {
+    const text = "Nightmares are common in children but can happen at any age";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["are"], ignoreWordBoundaries: true)));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 5);
+
+    expect(textSpanChildren[0].toPlainText(), "Nightm");
+    expect(textSpanChildren[1].toPlainText(), "are");
+    expect(textSpanChildren[2].toPlainText(), "s ");
+    expect(textSpanChildren[3].toPlainText(), "are");
+    expect(textSpanChildren[4].toPlainText(),
+        " common in children but can happen at any age");
+  });
+
+  testWidgets(
       'Text lumine has correct TextSpans with highlighted words considering diacritics',
       (tester) async {
     const text = "Làm sao để thử nghiệm";
