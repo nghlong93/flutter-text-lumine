@@ -23,7 +23,6 @@ class StringUtil {
 
   static String removeDiacriticsWithExceptions(String input) {
     return input.replaceAllMapped(RegExp(r'[^\x00-\x7F]'), (match) {
-      // Keep specific characters ñ, Ñ, ƀ
       if (diacriticPreservedCharacters.contains(match.group(0))) {
         return match.group(0)!;
       } else {
