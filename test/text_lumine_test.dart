@@ -325,4 +325,60 @@ void main() {
     expect(textWidget, const TypeMatcher<Text>());
     expect((textWidget as Text).data, text);
   });
+
+  testWidgets(
+      'Text lumine has correct TextSpans with a highlighted unicode word with reserved characters, ignore diacritics',
+      (tester) async {
+    const text = "Ƀơi anun ñu pơdǒng hơnum kơ yang hrơi.";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["ƀơi", "Ñu pơdǒng"],
+            ignoreDiacritics: true,
+            ignoreCase: true)));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 4);
+
+    expect(textSpanChildren[0].toPlainText(), "Ƀơi");
+    expect(textSpanChildren[1].toPlainText(), " anun ");
+    expect(textSpanChildren[2].toPlainText(), "ñu pơdǒng");
+    expect(textSpanChildren[3].toPlainText(), " hơnum kơ yang hrơi.");
+  });
+
+  testWidgets(
+      'Text lumine has correct TextSpans with a highlighted unicode word with reserved characters',
+      (tester) async {
+    const text = "Ƀơi anun ñu pơdǒng hơnum kơ yang hrơi.";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["ƀơi", "Ñu pơdǒng"],
+            ignoreDiacritics: false,
+            ignoreCase: true)));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 4);
+
+    expect(textSpanChildren[0].toPlainText(), "Ƀơi");
+    expect(textSpanChildren[1].toPlainText(), " anun ");
+    expect(textSpanChildren[2].toPlainText(), "ñu pơdǒng");
+    expect(textSpanChildren[3].toPlainText(), " hơnum kơ yang hrơi.");
+  });
 }

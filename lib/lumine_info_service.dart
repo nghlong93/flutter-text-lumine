@@ -1,6 +1,6 @@
-import 'package:diacritic/diacritic.dart';
 import 'package:flutter/painting.dart';
 import 'package:text_lumine/lumine_info.dart';
+import 'package:text_lumine/string_util.dart';
 
 class LumineInfoService {
   List<LumineInfo> generateLumineInfoList(String text, List<String> substrings,
@@ -28,7 +28,7 @@ class LumineInfoService {
           index = haystack.indexOf(searchText, start);
         } else {
           index = haystack.indexOf(
-              RegExp("\\b${RegExp.escape(searchText)}\\b",
+              RegExp("(?<!\\w)${RegExp.escape(searchText)}(?!\\w)",
                   caseSensitive: !ignoreCase, unicode: true),
               start);
         }
@@ -90,7 +90,7 @@ class LumineInfoService {
     String transformedText;
 
     if (removeAllDiacritics) {
-      transformedText = removeDiacritics(text);
+      transformedText = StringUtil.removeDiacriticsWithExceptions(text);
     } else {
       transformedText = text;
     }

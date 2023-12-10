@@ -12,21 +12,19 @@ class TextLumine extends StatelessWidget {
   late final List<LumineInfo> _lumineInfoList;
 
   TextLumine(this.text,
-      {Key? key, this.normalTextStyle, List<LumineInfo>? lumineInfoList})
-      : super(key: key) {
+      {super.key, this.normalTextStyle, List<LumineInfo>? lumineInfoList}) {
     _lumineInfoList =
         LumineInfoService().rectifyHighlightInfoList(text, lumineInfoList);
   }
 
   TextLumine.withHighlightedSubstrings(this.text,
       {required List<String> substrings,
-      Key? key,
+      super.key,
       this.normalTextStyle,
       bool ignoreDiacritics = false,
       bool ignoreCase = false,
       bool ignoreWordBoundaries = false,
-      TextStyle? highlightTextStyle})
-      : super(key: key) {
+      TextStyle? highlightTextStyle}) {
     // Generate lumine info list from highlighted substrings.
     var lumineInfoService = LumineInfoService();
 

@@ -13,3 +13,7 @@
 ## 0.0.4
 
 - Fix bug: cannot identify word boundaries that relate to puntuations
+
+## 0.0.5
+
+- Add some reserved characters when ignoring diacritics
