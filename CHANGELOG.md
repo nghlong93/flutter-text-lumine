@@ -17,3 +17,6 @@
 ## 0.0.5
 
 - Add some reserved characters when ignoring diacritics
+## 0.0.6
+
+- Fix bug that the widget highlights a wrong range when having combining characters
