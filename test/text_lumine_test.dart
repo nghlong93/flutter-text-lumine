@@ -329,6 +329,171 @@ void main() {
   testWidgets(
       'Text lumine has correct TextSpans with a highlighted unicode word with reserved characters, ignore diacritics',
       (tester) async {
+    const text =
+        "Ƀiădah ƀing mơnuih anun ƀu hmư̌ ôh pô tha; yua anun pô đah rơkơi anun mơ mă bơnai hơjung ñu ba pơ gah rơngiao brơi kơ ƀing anun, ƀing anun thâo pô bơnai hăng kơtư̌ ñu abih mlam truh pơ mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai anun nao.";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["anun"],
+            ignoreDiacritics: true,
+            ignoreCase: true)));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 13);
+
+    expect(textSpanChildren[0].toPlainText(), "Ƀiădah ƀing mơnuih ");
+    expect(textSpanChildren[1].toPlainText(), "anun");
+    expect(textSpanChildren[2].toPlainText(), " ƀu hmư̌ ôh pô tha; yua ");
+    expect(textSpanChildren[3].toPlainText(), "anun");
+    expect(textSpanChildren[4].toPlainText(), " pô đah rơkơi ");
+    expect(textSpanChildren[5].toPlainText(), "anun");
+    expect(textSpanChildren[6].toPlainText(),
+        " mơ mă bơnai hơjung ñu ba pơ gah rơngiao brơi kơ ƀing ");
+    expect(textSpanChildren[7].toPlainText(), "anun");
+    expect(textSpanChildren[8].toPlainText(), ", ƀing ");
+    expect(textSpanChildren[9].toPlainText(), "anun");
+    expect(textSpanChildren[10].toPlainText(),
+        " thâo pô bơnai hăng kơtư̌ ñu abih mlam truh pơ mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai ");
+    expect(textSpanChildren[11].toPlainText(), "anun");
+    expect(textSpanChildren[12].toPlainText(), " nao.");
+  });
+
+  testWidgets(
+      'Text lumine has correct TextSpans with highlighted unicode words with combining characters, ignore diacritics',
+      (tester) async {
+    const text =
+        "Ƀiădah ƀing mơnuih anun ƀu hmư̌ ôh pô tha; yua anun pô đah rơkơi anun mơ mă bơnai hơjung ñu ba pơ gah rơngiao brơi kơ ƀing anun, ƀing anun thâo pô bơnai hăng kơtư̌ ñu abih mlam truh pơ mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai anun nao.";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["anun", "pô"],
+            ignoreDiacritics: true,
+            ignoreCase: true)));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 23);
+
+    expect(textSpanChildren[0].toPlainText(), "Ƀiădah ƀing mơnuih ");
+    expect(textSpanChildren[1].toPlainText(), "anun");
+    expect(textSpanChildren[2].toPlainText(), " ƀu hmư̌ ôh ");
+    expect(textSpanChildren[3].toPlainText(), "pô");
+    expect(textSpanChildren[4].toPlainText(), " tha; yua ");
+    expect(textSpanChildren[5].toPlainText(), "anun");
+    expect(textSpanChildren[6].toPlainText(), " ");
+    expect(textSpanChildren[7].toPlainText(), "pô");
+    expect(textSpanChildren[8].toPlainText(), " đah rơkơi ");
+    expect(textSpanChildren[9].toPlainText(), "anun");
+    expect(textSpanChildren[10].toPlainText(), " mơ mă bơnai hơjung ñu ba ");
+    expect(textSpanChildren[11].toPlainText(), "pơ");
+    expect(textSpanChildren[12].toPlainText(), " gah rơngiao brơi kơ ƀing ");
+    expect(textSpanChildren[13].toPlainText(), "anun");
+    expect(textSpanChildren[14].toPlainText(), ", ƀing ");
+    expect(textSpanChildren[15].toPlainText(), "anun");
+    expect(textSpanChildren[16].toPlainText(), " thâo ");
+    expect(textSpanChildren[17].toPlainText(), "pô");
+    expect(textSpanChildren[18].toPlainText(),
+        " bơnai hăng kơtư̌ ñu abih mlam truh ");
+    expect(textSpanChildren[19].toPlainText(), "pơ");
+    expect(textSpanChildren[20].toPlainText(),
+        " mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai ");
+    expect(textSpanChildren[21].toPlainText(), "anun");
+    expect(textSpanChildren[22].toPlainText(), " nao.");
+  });
+
+  testWidgets(
+      'Text lumine has correct TextSpans with highlighted unicode words with combining characters',
+      (tester) async {
+    const text =
+        "Ƀiădah ƀing mơnuih anun ƀu hmư̌ ôh pô tha; yua anun pô đah rơkơi anun mơ mă bơnai hơjung ñu ba pơ gah rơngiao brơi kơ ƀing anun, ƀing anun thâo pô bơnai hăng kơtư̌ ñu abih mlam truh pơ mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai anun nao.";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["anun", "pô"],
+            ignoreDiacritics: false,
+            ignoreCase: true)));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 19);
+
+    expect(textSpanChildren[0].toPlainText(), "Ƀiădah ƀing mơnuih ");
+    expect(textSpanChildren[1].toPlainText(), "anun");
+    expect(textSpanChildren[2].toPlainText(), " ƀu hmư̌ ôh ");
+    expect(textSpanChildren[3].toPlainText(), "pô");
+    expect(textSpanChildren[4].toPlainText(), " tha; yua ");
+    expect(textSpanChildren[5].toPlainText(), "anun");
+    expect(textSpanChildren[6].toPlainText(), " ");
+    expect(textSpanChildren[7].toPlainText(), "pô");
+    expect(textSpanChildren[8].toPlainText(), " đah rơkơi ");
+    expect(textSpanChildren[9].toPlainText(), "anun");
+    expect(textSpanChildren[10].toPlainText(),
+        " mơ mă bơnai hơjung ñu ba pơ gah rơngiao brơi kơ ƀing ");
+    expect(textSpanChildren[11].toPlainText(), "anun");
+    expect(textSpanChildren[12].toPlainText(), ", ƀing ");
+    expect(textSpanChildren[13].toPlainText(), "anun");
+    expect(textSpanChildren[14].toPlainText(), " thâo ");
+    expect(textSpanChildren[15].toPlainText(), "pô");
+    expect(textSpanChildren[16].toPlainText(),
+        " bơnai hăng kơtư̌ ñu abih mlam truh pơ mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai ");
+    expect(textSpanChildren[17].toPlainText(), "anun");
+    expect(textSpanChildren[18].toPlainText(), " nao.");
+  });
+
+  testWidgets(
+      'Text lumine has correct TextSpans with a highlighted unicode word with combining characters, ignore diacritics',
+      (tester) async {
+    const text =
+        "Ƀiădah ƀing mơnuih anun ƀu hmư̌ ôh pô tha; yua anun pô đah rơkơi anun mơ mă bơnai hơjung ñu ba pơ gah rơngiao brơi kơ ƀing anun, ƀing anun thâo pô bơnai hăng kơtư̌ ñu abih mlam truh pơ mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai anun nao.";
+
+    // Create the widget by telling the tester to build it.
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextLumine.withHighlightedSubstrings(text,
+            substrings: const ["hmư̌"],
+            ignoreDiacritics: true,
+            ignoreCase: true)));
+
+    // Get rich text.
+    final richTextFinder = find.text(text, findRichText: true);
+    final richText = richTextFinder.evaluate().single.widget as RichText;
+    final mainTextSpan = richText.text as TextSpan;
+    final textSpanChildren = mainTextSpan.children!;
+
+    expect(textSpanChildren, isNotNull);
+    expect(textSpanChildren.length, 3);
+
+    expect(textSpanChildren[0].toPlainText(), "Ƀiădah ƀing mơnuih anun ƀu ");
+    expect(textSpanChildren[1].toPlainText(), "hmư̌");
+    expect(textSpanChildren[2].toPlainText(),
+        " ôh pô tha; yua anun pô đah rơkơi anun mơ mă bơnai hơjung ñu ba pơ gah rơngiao brơi kơ ƀing anun, ƀing anun thâo pô bơnai hăng kơtư̌ ñu abih mlam truh pơ mơguah; hăng lơm tơgǔ sing bring, gơñu mơ lui bơnai anun nao.");
+  });
+
+  testWidgets(
+      'Text lumine has correct TextSpans with a highlighted unicode word with reserved characters, ignore diacritics',
+      (tester) async {
     const text = "Ƀơi anun ñu pơdǒng hơnum kơ yang hrơi.";
 
     // Create the widget by telling the tester to build it.

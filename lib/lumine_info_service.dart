@@ -8,9 +8,19 @@ class LumineInfoService {
       bool ignoreCase = false,
       bool ignoreWordBoundaries = false,
       TextStyle? style}) {
-    var haystack = _transformText(text, ignoreDiacritics, ignoreCase);
+    final haystack = _transformText(text, ignoreDiacritics, ignoreCase);
+    final List<LumineInfo> lumineInfoList = [];
 
-    List<LumineInfo> lumineInfoList = [];
+    // Store combining indices.
+    final List<int> combiningCharacterIndices = [];
+
+    if (ignoreDiacritics) {
+      for (int i = 0; i < text.length; i++) {
+        if (StringUtil.isCombiningCharacter(text.codeUnitAt(i))) {
+          combiningCharacterIndices.add(i);
+        }
+      }
+    }
 
     for (var substring in substrings) {
       if (substring.trim().isEmpty) {
@@ -34,8 +44,14 @@ class LumineInfoService {
         }
 
         if (index >= 0) {
-          lumineInfoList
-              .add(LumineInfo(index, length: searchText.length, style: style));
+          // Adjust the index to account for diacritics in the original text.
+          int indexInOriginalText = index +
+              combiningCharacterIndices
+                  .lastIndexWhere((element) => element < index) +
+              1;
+
+          lumineInfoList.add(LumineInfo(indexInOriginalText,
+              length: substring.length, style: style));
           start = index + searchText.length;
         }
       } while (index >= 0 && start < haystack.length);
