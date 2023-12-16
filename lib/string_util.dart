@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:diacritic/diacritic.dart';
 
 class StringUtil {
-  static final diacriticPreservedCharacters = HashSet<String>.from(['Ƀ', 'ƀ']);
+  static final _diacriticPreservedCharacters = HashSet<String>.from(['Ƀ', 'ƀ']);
 
   static bool isNullOrEmpty(String? str) {
     return str?.isEmpty ?? true;
@@ -23,7 +23,7 @@ class StringUtil {
 
   static String removeDiacriticsWithExceptions(String input) {
     return input.replaceAllMapped(RegExp(r'[^\x00-\x7F]'), (match) {
-      if (diacriticPreservedCharacters.contains(match.group(0))) {
+      if (_diacriticPreservedCharacters.contains(match.group(0))) {
         return match.group(0)!;
       } else {
         // Remove other diacritics
@@ -31,4 +31,7 @@ class StringUtil {
       }
     });
   }
+
+  static bool isCombiningCharacter(int codeUnit) =>
+      0x0300 <= codeUnit && codeUnit <= 0x036F;
 }
