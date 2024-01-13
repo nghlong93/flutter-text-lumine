@@ -1,39 +1,46 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# text_lumine
+A simple widget that displays text with highlighted sub-strings.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+The widget supports two constructors:
+- The first one is an unnamed constructor. You can use this one when you have already calculated the positions of all highlighted sub-strings. Here is the parameter list:
+  - text *\[required\]*: The whole text that is displayed on the UI
+  - key *\[optional\]*: A key to identify the widget
+  - normalTextStyle *\[optional\]*: The style of unhighlighted text
+  - lumineInfoList *\[optional\]*: a list of **LumineInfo** objects. Each **LumineInfo** object contain the information of the highlight position. If the list is null or empty, the widget will render a normal Text widget. Here are properties of a **LumineInfo** object:
+    - startIndex *\[required\]*: The index of the first character to highlight
+    - length *\[optional\]*: Length of the highlighted sub-string. If it is undefined, the widget will highlight till the end of the text
+    - style *\[optional\]*: Style of the highlighted sub-string
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+- The second one is a named constructor which is `TextLumine.withHighlightedSubstrings`. With this constructor, you only have to provide a list of sub-strings that you wish to highlight. The widget will automatically find those sub-strings. The parameters of this constructor are listed below:
+  - text *\[required\]*: The whole text that is displayed on the UI
+  - substrings *\[required\]*: A list of sub-strings to highlight
+  - key *\[optional\]*: A key to identify the widget
+  - normalTextStyle *\[optional\]*: The style of unhighlighted text
+  - ignoreDiacritics *\[optional\]*: Search for sub-strings without considering the diacritics
+  - ignoreCase *\[optional\]*: Enable case-insensitive when searching for sub-strings
+  - highlightTextStyle *\[optional\]*: The text style of the highlighted sub-strings
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Here are examples for those two constructors:
 
 ```dart
-const like = 'sample';
+import 'package:text_lumine/text_lumine.dart';
+
+class MyWidget extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return TextLumine(
+      'Text to highlight', 
+      lumineInfoList: [LumineInfo(8)]
+    );
+  }
+}
 ```
 
-## Additional information
+```dart
+import 'package:text_lumine/text_lumine.dart';
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+class MyWidget extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return TextLumine.withHighlightedSubstrings('Text to highlight', substrings: const ["highlight"]);
+  }
+}
+```
